@@ -3,9 +3,19 @@
 }
 
 #title {
-  font-size: 35px;
-  color: gray;
+  margin: 20px;
+  text-align: center;
+  font-size: 5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: underline;
+  color: #f2da09;
+  text-shadow:
+    -1px -1px 0 #000,
+    5px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
+
 #start {
   width: 185px;
   height: 60px;
@@ -13,17 +23,20 @@
   font-size: 25px;
   background-color: #ffadbc;
 }
+
 #start:hover {
   background-color: #ffd4dc;
 }
 
-#history{
+#history {
   width: 450px;
   height: 200px;
 }
-.hist{
+
+.hist {
   display: inline;
 }
+
 .move {
   display: inline;
   width: 200px;
@@ -32,7 +45,6 @@
   font-size: 25px;
   background-color: #ba5757;
 }
-
 
 .move:hover {
   background-color: red;
