@@ -1,0 +1,37 @@
+* {
+  font-family: courier;
+}
+
+#title {
+  font-size: 35px;
+  color: gray;
+}
+#start {
+  width: 185px;
+  height: 60px;
+  font-family: courier;
+  font-size: 25px;
+  background-color: #ffadbc;
+}
+#start:hover {
+  background-color: #ffd4dc;
+}
+
+#history{
+  width: 450px;
+  height: 300px;
+}
+
+.move {
+  display: inline;
+  width: 200px;
+  height: 120px;
+  font-family: courier;
+  font-size: 25px;
+  background-color: #ba5757;
+}
+
+
+.move:hover {
+  background-color: red;
+}

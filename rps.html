@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Rock, Paper, Scissors</title>
+  <link href="rps.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <center>
+    <h1 id="title">Play rock paper scissors! Best of 5</h1>
+
+    <br>
+    <div id="buttons">
+      <button id="rock" class="move"> Rock </button>
+      <button id="paper" class="move"> Paper </button>
+      <button id="scissors" class="move"> Scissors </button>
+    </div>
+    <div id="history">
+      <div class="hist">
+        <p id="userMove" class="lastMove"></p>
+        <p id="cpuMove" class="lastMove"></p>
+      </div>
+      <div class="hist">
+        <p id="gameState"></p>
+        <p id="winner"></p>
+      </div>
+    </div>
+
+    <button id="start">New Match</button>
+
+  </center>
+
+
+
+  <script type="text/javascript">
+    class RPSView {
+      constructor() {
+        this.gameState = document.querySelector('#gameState')
+        this.winner = document.querySelector('#winner')
+        this.userMove = document.querySelector('#userMove')
+        this.cpuMove = document.querySelector('#cpuMove')
+
+        this.showLastMove("", "")
+        this.showState("")
+        this.showWinner("")
+      }
+      showLastMove(user, cpu) {
+        this.userMove.textContent = user
+        this.cpuMove.textContent = cpu
+      }
+
+      showState(state) {
+        this.gameState.textContent = state
+      }
+
+      showWinner(msg) {
+        this.winner.textContent = msg
+      }
+    }
+
+    class RPSController {
+      constructor(m, v) {
+        this.model = m
+        this.view = v
+        var rockBtn = document.querySelector('#rock')
+        var paperBtn = document.querySelector('#paper')
+        var scissorBtn = document.querySelector('#scissors')
+        this.buttons = [rockBtn, paperBtn, scissorBtn]
+
+        rockBtn.onclick = () => {
+          m.roundWinner("rock")
+          this.reset()
+          this.gameOver()
+        }
+        paperBtn.onclick = () => {
+          m.roundWinner("paper")
+          this.reset()
+          this.gameOver()
+        }
+        scissorBtn.onclick = () => {
+          m.roundWinner("scissors")
+          this.reset()
+          this.gameOver()
+        }
+      }
+
+      reset() {
+        this.view.showState(this.model.stateOfGame())
+
+        var move = this.model.lastMove();
+        this.view.showLastMove(move[0], move[1])
+      }
+
+      gameOver() {
+        if (!this.model.continueGame()) {
+          this.view.showWinner("GAME OVER: " + this.model.winner())
+          this.disableButtons()
+        }
+      }
+
+      disableButtons() {
+        this.buttons.forEach((b) => {
+          b.disabled = true
+        })
+      }
+    }
+
+    class RPSModel {
+      constructor() {
+        this.round = 1
+        this.p1 = 0
+        this.p2 = 0
+        this.userMove = ""
+        this.cpuMove = ""
+      }
+
+      computerPlay() {
+        var randInt = Math.floor(Math.random() * 3) + 1;
+
+        switch (randInt) {
+          case (1):
+            return "rock"
+            break;
+          case (2):
+            return "paper"
+            break;
+          case (3):
+            return "scissors"
+            break;
+          default:
+            break;
+        }
+      }
+
+      roundWinner(user) {
+        this.userMove = user.toLowerCase()
+        this.cpuMove = this.computerPlay()
+        if (this.userMove == this.cpuMove) {
+
+        } else if ((this.userMove == "rock" && this.cpuMove == "scissors") || (this.userMove == "paper" && this.cpuMove == "rock") || (this.userMove == "scissors" && this.cpuMove == "paper")) {
+          this.round++
+          this.p1++
+        } else if ((this.userMove == "rock" && this.cpuMove == "paper") || (this.userMove == "paper" && this.cpuMove == "scissors") || (this.userMove == "scissors" && this.cpuMove == "rock")) {
+          this.round++
+          this.p2++
+        }
+      }
+
+      lastMove() {
+        return [this.userMove, this.cpuMove]
+      }
+
+      stateOfGame() {
+        return ("User Score: " + this.p1 + " Computer Score: " + this.p2 + " Round #: " + this.round + "\n")
+      }
+
+      continueGame() {
+        return (this.round <= 5 && this.p1 < 3 && this.p2 < 3);
+      }
+
+      winner() {
+        if (this.p1 > this.p2) {
+          return "YOU WON"
+        } else {
+          return "YOU LOST"
+        }
+      }
+    }
+
+
+    document.querySelector('#start').onclick = () => {
+      var model = new RPSModel();
+      var view = new RPSView();
+      var ctrl = new RPSController(model, view)
+      document.querySelectorAll(".move").forEach((b) => {
+        b.disabled = false
+      })
+    }
+  </script>
+</body>
+
+</html>
